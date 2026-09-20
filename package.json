@@ -1,0 +1,16 @@
+{
+  "name": "the-small-web",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter server dev\" \"pnpm --filter client dev\"",
+    "build": "pnpm --filter server build && pnpm --filter client build",
+    "test": "pnpm --filter server test && pnpm --filter client test",
+    "lint": "pnpm --filter client lint && pnpm --filter server lint",
+    "seed": "pnpm --filter server seed",
+    "typecheck": "pnpm --filter server typecheck && pnpm --filter client typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
