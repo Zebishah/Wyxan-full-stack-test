@@ -1,18 +1,15 @@
-Absolutely — here is a polished **final README** you can use directly.
-
-````md
 # The Small Web
 
 The Small Web is a full-stack web application that presents a fictional network of one-page websites through a browser-inspired interface.
 
 Users can browse fictional addresses, follow links, navigate backward and forward, search across page content, view per-person browsing history, and publish new sites.
 
-The project uses:
+## Tech stack
 
-- **Next.js + TypeScript** for the frontend
-- **NestJS + TypeScript** for the API
-- **MongoDB Atlas + Mongoose** for persistence
-- **pnpm workspaces** for managing the client and server in one repository
+* **Next.js + TypeScript** for the frontend
+* **NestJS + TypeScript** for the API
+* **MongoDB Atlas + Mongoose** for persistence
+* **pnpm workspaces** for managing the frontend and backend in one repository
 
 ---
 
@@ -27,7 +24,7 @@ The project uses:
 ├── package.json
 ├── pnpm-workspace.yaml
 └── README.md
-````
+```
 
 The frontend is organized by product feature under:
 
@@ -51,9 +48,9 @@ server/src/
 
 Make sure you have:
 
-- Node.js 20+
-- pnpm
-- a MongoDB Atlas database
+* Node.js 20+
+* pnpm
+* a MongoDB Atlas database
 
 Install pnpm globally if needed:
 
@@ -75,9 +72,7 @@ Then update `.env` with your MongoDB Atlas connection string:
 
 ```env
 MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@CLUSTER.mongodb.net/small-web?retryWrites=true&w=majority
-
 PORT=4000
-
 NEXT_PUBLIC_API_URL=http://localhost:4000/api
 ```
 
@@ -85,9 +80,9 @@ Replace the placeholder MongoDB URI with your own Atlas connection string.
 
 Make sure:
 
-- your Atlas database user has read/write access
-- your current IP address is allowed in Atlas Network Access
-- the database name is included in the connection URI
+* your Atlas database user has read/write access
+* your current IP address is allowed in Atlas Network Access
+* the database name is included in the connection URI
 
 Do not commit your real `.env` file or database credentials.
 
@@ -115,18 +110,18 @@ pnpm seed
 
 The seed creates:
 
-- fictional sites
-- people
-- multiple authors
-- links between sites
-- intentionally broken links
-- per-person browsing history
-- repeated visits
-- longer browsing trails
+* fictional sites
+* people
+* multiple authors
+* links between sites
+* intentionally broken links
+* per-person browsing history
+* repeated visits
+* longer browsing trails
 
 The seed is deterministic and idempotent.
 
-Running the seed multiple times does not duplicate the site or person data.
+Running it multiple times does not duplicate site or person data.
 
 ---
 
@@ -141,48 +136,11 @@ pnpm dev
 The applications will be available at:
 
 ```text
-Frontend
-http://localhost:3001
-
-API
-http://localhost:4000
+Frontend: http://localhost:3001
+API:      http://localhost:4000
 ```
 
 Open the frontend at:
-
-```text
-http://localhost:3001
-```
-
----
-
-## Full setup from a fresh clone
-
-```sh
-git clone <repository-url>
-cd Wyxan-full-stack-test
-
-pnpm install
-
-cp .env.example .env
-```
-
-Add your MongoDB Atlas connection string to `.env`:
-
-```env
-MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@CLUSTER.mongodb.net/small-web?retryWrites=true&w=majority
-PORT=4000
-NEXT_PUBLIC_API_URL=http://localhost:4000/api
-```
-
-Then run:
-
-```sh
-pnpm seed
-pnpm dev
-```
-
-Open:
 
 ```text
 http://localhost:3001
@@ -253,11 +211,11 @@ entries[]
 currentIndex
 ```
 
-Navigation entries may represent:
+Navigation entries can represent:
 
-- a site
-- search results
-- an address-not-found state
+* a site
+* search results
+* an address-not-found state
 
 For example:
 
@@ -269,7 +227,7 @@ Site A → Site B → Site C
 
 Pressing Back moves the current index without deleting entries.
 
-If the user moves Back and then opens a different site:
+If the user goes Back and then opens a different site:
 
 ```text
 A → B → C
@@ -306,17 +264,15 @@ Persistent visit history is stored separately in MongoDB.
 
 A visit contains information such as:
 
-- selected person
-- address
-- site title
-- navigation source
-- visit time
+* selected person
+* address
+* site title
+* navigation source
+* visit time
 
 The selected person determines whose browsing history receives new visits.
 
 Changing the selected person does not reset the currently displayed site. Subsequent navigation is recorded for the newly selected person.
-
-This separation is intentional:
 
 ```text
 Browser navigation
@@ -332,15 +288,15 @@ Visit history
 
 Search operates across:
 
-- site body content
-- titles
-- addresses
+* site body content
+* titles
+* addresses
 
-Published HTML is converted into plain text before being stored so page content can be searched without matching HTML tags.
+Published HTML is converted into plain text before being stored so search works against readable page content instead of raw HTML tags.
 
 Search results include a short snippet around the matching text.
 
-Search itself is stored as a navigation entry, including its query and result set.
+Search itself is stored as a navigation entry, including the query and result set.
 
 This allows:
 
@@ -351,7 +307,7 @@ Search
 → same search query and results
 ```
 
-without running the search again.
+without needing to run the search again.
 
 ---
 
@@ -359,10 +315,10 @@ without running the search again.
 
 A new fictional site can be created with:
 
-- author
-- address
-- title
-- HTML content
+* author
+* address
+* title
+* HTML content
 
 Addresses are internal identifiers for the Small Web.
 
@@ -376,7 +332,7 @@ night-archive.site
 my-page
 ```
 
-These addresses are always treated as fictional internal addresses and are never opened as real internet destinations.
+These addresses are treated as fictional internal addresses and are never opened as real internet destinations.
 
 Unsafe URL-like values such as the following are rejected:
 
@@ -398,10 +354,10 @@ The backend sanitizes it using `sanitize-html` before storing it.
 
 Unsafe content such as:
 
-- scripts
-- inline JavaScript event handlers
-- unsafe URL schemes
-- unsupported dangerous markup
+* scripts
+* inline JavaScript event handlers
+* unsafe URL schemes
+* unsupported dangerous markup
 
 is removed.
 
@@ -413,10 +369,10 @@ sandbox="allow-same-origin"
 
 The iframe deliberately does not receive permissions for:
 
-- script execution
-- forms
-- popups
-- top-level navigation
+* script execution
+* forms
+* popups
+* top-level navigation
 
 This creates an additional isolation boundary between fictional site content and the browser application's own interface.
 
@@ -438,10 +394,10 @@ is routed through the Small Web navigation system.
 
 That means it participates correctly in:
 
-- Back
-- Forward
-- browsing history
-- broken-address handling
+* Back
+* Forward
+* browsing history
+* broken-address handling
 
 Links that do not match the internal fictional-address rules are prevented from escaping the Small Web.
 
@@ -453,18 +409,18 @@ The seed contains enough connected data to demonstrate the browser realistically
 
 It includes:
 
-- roughly ten fictional sites
-- meaningful prose instead of placeholder text
-- cross-links between sites
-- broken links
-- several people
-- multiple authors
-- authors with more than one site
-- repeated visits
-- long browsing trails
-- a person who has visited most of the Small Web
+* roughly ten fictional sites
+* meaningful prose instead of placeholder text
+* cross-links between sites
+* broken links
+* several people
+* multiple authors
+* authors with more than one site
+* repeated visits
+* long browsing trails
+* a person who has visited most of the Small Web
 
-This allows browsing, search, and history to be demonstrated immediately after setup.
+This makes browsing, search, and history immediately demonstrable after setup.
 
 ---
 
@@ -497,7 +453,7 @@ pnpm dev
 
 ## Verification
 
-Before submission, the project can be checked with:
+Before running or submitting the project, you can verify it with:
 
 ```sh
 pnpm test
@@ -506,26 +462,15 @@ pnpm lint
 pnpm build
 ```
 
-Then run:
+Then:
 
 ```sh
 pnpm seed
 pnpm dev
 ```
 
-and open:
+Open:
 
 ```text
 http://localhost:3001
-```
-
-```
-
-One small recommendation: in `.env.example`, keep only a placeholder Atlas URI, never your real username/password.
-
-(confidence: 99% ± 1%)
-
-
-is thsi compelte eradme or what??
-
 ```
